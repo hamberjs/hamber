@@ -21,7 +21,7 @@
     "build": "rollup -c",
     "prepare": "npm run build",
     "dev": "rollup -cw",
-    "prepublishOnly": "export PUBLISH=true && npm run lint"
+    "prepublishOnly": "set PUBLISH=true && npm run lint"
   },
   "repository": {
     "type": "git",
