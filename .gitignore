@@ -1,0 +1,16 @@
+.DS_Store
+.nyc_output
+node_modules
+*.map
+/src/compile/internal-exports.ts
+/compiler.js
+/index.js
+/internal.*
+/store.js
+/easing.js
+/motion.*
+/transition.js
+/scratch/
+/yarn-error.log
+/.idea
+_actual*.*
