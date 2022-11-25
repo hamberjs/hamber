@@ -1,6 +1,6 @@
 {
   "name": "hamber",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "description": "Cybernetically enhanced web apps",
   "module": "index.mjs",
   "main": "index",
@@ -83,5 +83,6 @@
     ],
     "sourceMap": true,
     "instrument": true
-  }
+  },
+  "dependencies": {}
 }

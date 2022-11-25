@@ -127,7 +127,7 @@ export default class Expression {
 					if (name[0] === '$' && template_scope.names.has(name.slice(1))) {
 						component.error(node, {
 							code: `contextual-store`,
-							message: `Stores must be declared at the top level of the component (this may change in a future version of Hamber)`
+							message: `Stores must be declared at the top level of the component (this may change in a future version of hamber)`
 						});
 					}
 

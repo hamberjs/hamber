@@ -75,12 +75,10 @@ export class Scope {
 		if (node.kind === 'var' && this.block && this.parent) {
 			this.parent.add_declaration(node);
 		} else if (node.type === 'VariableDeclaration') {
-			const initialised = !!node.init;
-
 			node.declarations.forEach((declarator: Node) => {
 				extract_names(declarator.id).forEach(name => {
 					this.declarations.set(name, node);
-					if (initialised) this.initialised_declarations.add(name);
+					if (declarator.init) this.initialised_declarations.add(name);
 				});
 			});
 		} else {
@@ -106,7 +104,7 @@ export function extract_names(param: Node) {
 
 export function extract_identifiers(param: Node) {
 	const nodes: Node[] = [];
-	extractors[param.type](nodes, param);
+	extractors[param.type] && extractors[param.type](nodes, param);
 	return nodes;
 }
 
