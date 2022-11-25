@@ -2,8 +2,6 @@
 
 The magical disappearing UI framework.
 
----
-
 ## Example usage
 
 ```js

@@ -18,19 +18,22 @@ export function fly(node, {
 	duration = 400,
 	easing = cubicOut,
 	x = 0,
-	y = 0
+	y = 0,
+	opacity = 0
 }) {
 	const style = getComputedStyle(node);
-	const opacity = +style.opacity;
+	const target_opacity = +style.opacity;
 	const transform = style.transform === 'none' ? '' : style.transform;
+
+	const od = target_opacity * (1 - opacity);
 
 	return {
 		delay,
 		duration,
 		easing,
-		css: t => `
+		css: (t, u) => `
 			transform: ${transform} translate(${(1 - t) * x}px, ${(1 - t) * y}px);
-			opacity: ${t * opacity}`
+			opacity: ${target_opacity - (od * u)}`
 	};
 }
 
@@ -66,12 +69,48 @@ export function slide(node, {
 	};
 }
 
+export function scale(node, {
+	delay = 0,
+	duration = 400,
+	easing = cubicOut,
+	start = 0,
+	opacity = 0
+}) {
+	const style = getComputedStyle(node);
+	const target_opacity = +style.opacity;
+	const transform = style.transform === 'none' ? '' : style.transform;
+
+	const sd = 1 - start;
+	const od = target_opacity * (1 - opacity);
+
+	return {
+		delay,
+		duration,
+		easing,
+		css: (t, u) => `
+			transform: ${transform} scale(${1 - (sd * u)});
+			opacity: ${target_opacity - (od * u)}
+		`
+	};
+}
+
 export function draw(node, {
 	delay = 0,
-	duration = 800,
+	speed,
+	duration,
 	easing = cubicInOut
 }) {
 	const len = node.getTotalLength();
+
+	if (duration === undefined) {
+		if (speed === undefined) {
+			duration = 800;
+		} else {
+			duration = len / speed;
+		}
+	} else if (typeof duration === 'function') {
+		duration = duration(len);
+	}
 
 	return {
 		delay,

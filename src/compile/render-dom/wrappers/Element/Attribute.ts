@@ -78,7 +78,7 @@ export default class AttributeWrapper {
 			// DRY it out if that's possible without introducing crazy indirection
 			if (this.node.chunks.length === 1) {
 				// single {tag} — may be a non-string
-				value = this.node.chunks[0].render();
+				value = this.node.chunks[0].render(block);
 			} else {
 				// '{foo} {bar}' — treat as string concatenation
 				value =
@@ -445,6 +445,7 @@ const attribute_lookup = {
 		],
 	},
 	volume: { applies_to: ['audio', 'video'] },
+	playbackRate: { applies_to: ['audio', 'video'] },
 	width: {
 		applies_to: ['canvas', 'embed', 'iframe', 'img', 'input', 'object', 'video'],
 	},

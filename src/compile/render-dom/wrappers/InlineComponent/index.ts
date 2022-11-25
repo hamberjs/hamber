@@ -112,7 +112,6 @@ export default class InlineComponentWrapper extends Wrapper {
 
 		const statements: string[] = [];
 		const updates: string[] = [];
-		const postupdates: string[] = [];
 
 		let props;
 		const name_changes = block.get_unique_name(`${name}_changes`);
@@ -156,7 +155,7 @@ export default class InlineComponentWrapper extends Wrapper {
 			component_opts.push(`$$inline: true`);
 		}
 
-		const fragment_dependencies = new Set();
+		const fragment_dependencies = new Set(this.fragment ? ['$$scope'] : []);
 		this.slots.forEach(slot => {
 			slot.block.dependencies.forEach(name => {
 				const is_let = slot.scope.is_let(name);
@@ -311,8 +310,6 @@ export default class InlineComponentWrapper extends Wrapper {
 				}
 			`);
 
-			postupdates.push(updating);
-
 			const contextual_dependencies = Array.from(binding.expression.contextual_dependencies);
 			const dependencies = Array.from(binding.expression.dependencies);
 
@@ -327,33 +324,34 @@ export default class InlineComponentWrapper extends Wrapper {
 				contextual_dependencies.push(object, property);
 			}
 
-			const args = ['value'];
+			const value = block.get_unique_name('value');
+			const args = [value];
 			if (contextual_dependencies.length > 0) {
 				args.push(`{ ${contextual_dependencies.join(', ')} }`);
 
 				block.builders.init.add_block(deindent`
-					function ${name}(value) {
-						if (ctx.${name}.call(null, value, ctx)) {
-							${updating} = true;
-						}
+					function ${name}(${value}) {
+						ctx.${name}.call(null, ${value}, ctx);
+						${updating} = true;
+						@add_flush_callback(() => ${updating} = false);
 					}
 				`);
 
 				block.maintain_context = true; // TODO put this somewhere more logical
 			} else {
 				block.builders.init.add_block(deindent`
-					function ${name}(value) {
-						if (ctx.${name}.call(null, value)) {
-							${updating} = true;
-						}
+					function ${name}(${value}) {
+						ctx.${name}.call(null, ${value});
+						${updating} = true;
+						@add_flush_callback(() => ${updating} = false);
 					}
 				`);
 			}
 
 			const body = deindent`
 				function ${name}(${args.join(', ')}) {
-					${lhs} = value;
-					return ${component.invalidate(dependencies[0])}
+					${lhs} = ${value};
+					${component.invalidate(dependencies[0])};
 				}
 			`;
 
@@ -452,8 +450,6 @@ export default class InlineComponentWrapper extends Wrapper {
 					else if (${switch_value}) {
 						${name}.$set(${name_changes});
 					}
-
-					${postupdates.length > 0 && `${postupdates.join(' = ')} = false;`}
 				`);
 			}
 
@@ -497,7 +493,6 @@ export default class InlineComponentWrapper extends Wrapper {
 				block.builders.update.add_block(deindent`
 					${updates}
 					${name}.$set(${name_changes});
-					${postupdates.length > 0 && `${postupdates.join(' = ')} = false;`}
 				`);
 			}
 
