@@ -1,10 +1,1 @@
-export {
-	onMount,
-	onDestroy,
-	beforeUpdate,
-	afterUpdate,
-	setContext,
-	getContext,
-	tick,
-	createEventDispatcher
-} from './internal';
+export { HamberComponentDev as HamberComponent, afterUpdate, beforeUpdate, createEventDispatcher, getContext, onDestroy, onMount, setContext, tick } from './internal';

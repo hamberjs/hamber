@@ -14,10 +14,12 @@ Pull requests are encouraged and always welcome. [Pick an issue](https://github.
 To install and work on Hamber locally:
 
 ```bash
-git clone git@github.com:hamberjs/hamber.git
+git clone https://github.com/hamberjs/hamber.git
 cd hamber
 npm install
 ```
+
+> Do not use Yarn to install the dependencies, as the specific package versions in `package-lock.json` are used to build Hamber.
 
 To build the compiler, and all the other modules included in the package:
 
@@ -31,7 +33,7 @@ To watch for changes and continually rebuild the package (this is useful if you'
 npm run dev
 ```
 
-The compiler is written in [TypeScript](https://www.typescriptlang.org/), but don't let that put you off — it's basically just JavaScript with type annotations. You'll pick it up in no time. If you're using an editor other than [VSCode](https://code.visualstudio.com/) you may need to install a plugin in order to get syntax highlighting and code hints etc.
+The compiler is written in [TypeScript](https://www.typescriptlang.org/), but don't let that put you off — it's basically just JavaScript with type annotations. You'll pick it up in no time. If you're using an editor other than [Visual Studio Code](https://code.visualstudio.com/) you may need to install a plugin in order to get syntax highlighting and code hints etc.
 
 
 ## License

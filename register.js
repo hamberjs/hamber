@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { compile } = require('./compiler.js');
 
-let extensions = ['.hamber', '.html'];
+const extensions = ['.hamber', '.html'];
 let compileOptions = {};
 
 function capitalise(name) {
@@ -25,8 +25,7 @@ function deregisterExtension(extension) {
 
 function registerExtension(extension) {
 	require.extensions[extension] = function(module, filename) {
-		const name = path.basename(filename)
-			.slice(0, -path.extname(filename).length)
+		const name = path.parse(filename).name
 			.replace(/^\d/, '_$&')
 			.replace(/[^a-zA-Z0-9_$]/g, '');
 
@@ -37,7 +36,15 @@ function registerExtension(extension) {
 			format: 'cjs'
 		});
 
-		const { js } = compile(fs.readFileSync(filename, 'utf-8'), options);
+		const { js, warnings } = compile(fs.readFileSync(filename, 'utf-8'), options);
+
+		if (options.dev) {
+			warnings.forEach(warning => {
+				console.warn(`\nHamber Warning in ${warning.filename}:`);
+				console.warn(warning.message);
+				console.warn(warning.frame);
+			})
+		}
 
 		return module._compile(js.code, filename);
 	};
