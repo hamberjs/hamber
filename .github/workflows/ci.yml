@@ -3,8 +3,10 @@ on: [push, pull_request]
 jobs:
   Lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-    - run: 'npm i && npm run lint'
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+      - run: 'npm i && npm run lint'

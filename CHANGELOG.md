@@ -1,5 +1,15 @@
 # Hamber changelog
 
+## 3.49.0
+
+* Improve performance of string escaping during SSR
+* Add `ComponentType` and `ComponentProps` convenience types
+* Add support for CSS `@layer`
+* Export `CompileOptions` from `hamber/compiler`
+* Fix DOM-less components not being properly destroyed
+* Fix `class:` directive updates with `<hamber:element>`
+* Harden attribute escaping during SSR
+
 ## 3.24.0
 
 * Support nullish coalescing (`??`) and optional chaining (`?.`) operators

@@ -9,7 +9,7 @@ export function get_class_attribute_value(attribute: Attribute): ESTreeExpressio
 	// handle special case — `class={possiblyUndefined}` with scoped CSS
 	if (attribute.chunks.length === 2 && (attribute.chunks[1] as Text).synthetic) {
 		const value = (attribute.chunks[0] as Expression).node;
-		return x`@escape(@null_to_empty(${value})) + "${(attribute.chunks[1] as Text).data}"`;
+		return x`@escape(@null_to_empty(${value}), true) + "${(attribute.chunks[1] as Text).data}"`;
 	}
 
 	return get_attribute_value(attribute);
@@ -22,7 +22,14 @@ export function get_attribute_value(attribute: Attribute): ESTreeExpression {
 		.map((chunk) => {
 			return chunk.type === 'Text'
 				? string_literal(chunk.data.replace(/"/g, '&quot;')) as ESTreeExpression
-				: x`@escape(${chunk.node})`;
+				: x`@escape(${chunk.node}, true)`;
 		})
 		.reduce((lhs, rhs) => x`${lhs} + ${rhs}`);
+}
+
+export function get_attribute_expression(attribute: Attribute): ESTreeExpression {
+	if (attribute.chunks.length === 1 && attribute.chunks[0].type === 'Expression') {
+		return (attribute.chunks[0] as Expression).node as ESTreeExpression;
+	}
+	return get_attribute_value(attribute);
 }

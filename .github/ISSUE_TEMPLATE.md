@@ -8,10 +8,12 @@ the issue. One way we prioritize issues is by the number of :+1: reactions on
 their descriptions. Please DO NOT add `+1` or :+1: comments.
 
 ### Feature requests and proposals
+
 We're excited to hear how we can make Hamber better. Please add as much detail
 as you can on your use case.
 
 ### Bugs
+
 If you're filing an issue about a bug please include as much information
 as you can including the following.
 

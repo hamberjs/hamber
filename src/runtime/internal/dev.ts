@@ -1,22 +1,33 @@
-import { custom_event, append, insert, detach, listen, attr } from './dom';
+import { custom_event, append, append_hydration, insert, insert_hydration, detach, listen, attr } from './dom';
 import { HamberComponent } from './Component';
+import { is_void } from '../../shared/utils/names';
 
 export function dispatch_dev<T=any>(type: string, detail?: T) {
-	document.dispatchEvent(custom_event(type, { version: '__VERSION__', ...detail }));
+	document.dispatchEvent(custom_event(type, { version: '__VERSION__', ...detail }, { bubbles: true }));
 }
 
 export function append_dev(target: Node, node: Node) {
-	dispatch_dev("HamberDOMInsert", { target, node });
+	dispatch_dev('HamberDOMInsert', { target, node });
 	append(target, node);
 }
 
+export function append_hydration_dev(target: Node, node: Node) {
+	dispatch_dev('HamberDOMInsert', { target, node });
+	append_hydration(target, node);
+}
+
 export function insert_dev(target: Node, node: Node, anchor?: Node) {
-	dispatch_dev("HamberDOMInsert", { target, node, anchor });
+	dispatch_dev('HamberDOMInsert', { target, node, anchor });
 	insert(target, node, anchor);
 }
 
+export function insert_hydration_dev(target: Node, node: Node, anchor?: Node) {
+	dispatch_dev('HamberDOMInsert', { target, node, anchor });
+	insert_hydration(target, node, anchor);
+}
+
 export function detach_dev(node: Node) {
-	dispatch_dev("HamberDOMRemove", { node });
+	dispatch_dev('HamberDOMRemove', { node });
 	detach(node);
 }
 
@@ -39,15 +50,15 @@ export function detach_after_dev(before: Node) {
 }
 
 export function listen_dev(node: Node, event: string, handler: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions | EventListenerOptions, has_prevent_default?: boolean, has_stop_propagation?: boolean) {
-	const modifiers = options === true ? [ "capture" ] : options ? Array.from(Object.keys(options)) : [];
+	const modifiers = options === true ? [ 'capture' ] : options ? Array.from(Object.keys(options)) : [];
 	if (has_prevent_default) modifiers.push('preventDefault');
 	if (has_stop_propagation) modifiers.push('stopPropagation');
 
-	dispatch_dev("HamberDOMAddEventListener", { node, event, handler, modifiers });
+	dispatch_dev('HamberDOMAddEventListener', { node, event, handler, modifiers });
 
 	const dispose = listen(node, event, handler, options);
 	return () => {
-		dispatch_dev("HamberDOMRemoveEventListener", { node, event, handler, modifiers });
+		dispatch_dev('HamberDOMRemoveEventListener', { node, event, handler, modifiers });
 		dispose();
 	};
 }
@@ -55,27 +66,27 @@ export function listen_dev(node: Node, event: string, handler: EventListenerOrEv
 export function attr_dev(node: Element, attribute: string, value?: string) {
 	attr(node, attribute, value);
 
-	if (value == null) dispatch_dev("HamberDOMRemoveAttribute", { node, attribute });
-	else dispatch_dev("HamberDOMSetAttribute", { node, attribute, value });
+	if (value == null) dispatch_dev('HamberDOMRemoveAttribute', { node, attribute });
+	else dispatch_dev('HamberDOMSetAttribute', { node, attribute, value });
 }
 
 export function prop_dev(node: Element, property: string, value?: any) {
 	node[property] = value;
 
-	dispatch_dev("HamberDOMSetProperty", { node, property, value });
+	dispatch_dev('HamberDOMSetProperty', { node, property, value });
 }
 
 export function dataset_dev(node: HTMLElement, property: string, value?: any) {
 	node.dataset[property] = value;
 
-	dispatch_dev("HamberDOMSetDataset", { node, property, value });
+	dispatch_dev('HamberDOMSetDataset', { node, property, value });
 }
 
 export function set_data_dev(text, data) {
 	data = '' + data;
 	if (text.wholeText === data) return;
 
-	dispatch_dev("HamberDOMSetData", { node: text, data });
+	dispatch_dev('HamberDOMSetData', { node: text, data });
 	text.data = data;
 }
 
@@ -97,25 +108,65 @@ export function validate_slots(name, slot, keys) {
 	}
 }
 
+export function validate_dynamic_element(tag: unknown) {
+	const is_string = typeof tag === 'string';
+	if (tag && !is_string) {
+		throw new Error('<hamber:element> expects "this" attribute to be a string.');
+	}
+}
+
+export function validate_void_dynamic_element(tag: undefined | string) {
+	if (tag && is_void(tag)) {
+		throw new Error(`<hamber:element this="${tag}"> is self-closing and cannot have content.`);
+	}
+}
+
 type Props = Record<string, any>;
 export interface HamberComponentDev {
 	$set(props?: Props): void;
-	$on<T = any>(event: string, callback: (event: CustomEvent<T>) => void): () => void;
+	$on(event: string, callback: (event: any) => void): () => void;
 	$destroy(): void;
 	[accessor: string]: any;
 }
+export interface ComponentConstructorOptions<Props extends Record<string, any> = Record<string, any>> {
+	target: Element | ShadowRoot;
+	anchor?: Element;
+	props?: Props;
+	context?: Map<any, any>;
+	hydrate?: boolean;
+	intro?: boolean;
+	$$inline?: boolean;
+}
 
+/**
+ * Base class for Hamber components with some minor dev-enhancements. Used when dev=true.
+ */
 export class HamberComponentDev extends HamberComponent {
-	constructor(options: {
-		target: Element;
-		anchor?: Element;
-		props?: Props;
-		hydrate?: boolean;
-		intro?: boolean;
-		$$inline?: boolean;
-    }) {
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$prop_def: Props;
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$events_def: any;
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$slot_def: any;
+
+	constructor(options: ComponentConstructorOptions) {
 		if (!options || (!options.target && !options.$$inline)) {
-			throw new Error(`'target' is a required option`);
+			throw new Error("'target' is a required option");
 		}
 
 		super();
@@ -124,7 +175,7 @@ export class HamberComponentDev extends HamberComponent {
 	$destroy() {
 		super.$destroy();
 		this.$destroy = () => {
-			console.warn(`Component was already destroyed`); // eslint-disable-line no-console
+			console.warn('Component was already destroyed'); // eslint-disable-line no-console
 		};
 	}
 
@@ -133,11 +184,128 @@ export class HamberComponentDev extends HamberComponent {
 	$inject_state() {}
 }
 
+// TODO https://github.com/microsoft/TypeScript/issues/41770 is the reason
+// why we have to split out HamberComponentTyped to not break existing usage of HamberComponent.
+// Try to find a better way for Hamber 4.0.
+
+export interface HamberComponentTyped<
+	Props extends Record<string, any> = any,
+	Events extends Record<string, any> = any,
+	Slots extends Record<string, any> = any // eslint-disable-line @typescript-eslint/no-unused-vars
+> {
+	$set(props?: Partial<Props>): void;
+	$on<K extends Extract<keyof Events, string>>(type: K, callback: (e: Events[K]) => void): () => void;
+	$destroy(): void;
+	[accessor: string]: any;
+}
+/**
+ * Base class to create strongly typed Hamber components.
+ * This only exists for typing purposes and should be used in `.d.ts` files.
+ *
+ * ### Example:
+ *
+ * You have component library on npm called `component-library`, from which
+ * you export a component called `MyComponent`. For Hamber+TypeScript users,
+ * you want to provide typings. Therefore you create a `index.d.ts`:
+ * ```ts
+ * import { HamberComponentTyped } from "hamber";
+ * export class MyComponent extends HamberComponentTyped<{foo: string}> {}
+ * ```
+ * Typing this makes it possible for IDEs like VS Code with the Hamber extension
+ * to provide intellisense and to use the component like this in a Hamber file
+ * with TypeScript:
+ * ```hamber
+ * <script lang="ts">
+ * 	import { MyComponent } from "component-library";
+ * </script>
+ * <MyComponent foo={'bar'} />
+ * ```
+ *
+ * #### Why not make this part of `HamberComponent(Dev)`?
+ * Because
+ * ```ts
+ * class ASubclassOfHamberComponent extends HamberComponent<{foo: string}> {}
+ * const component: typeof HamberComponent = ASubclassOfHamberComponent;
+ * ```
+ * will throw a type error, so we need to separate the more strictly typed class.
+ */
+export class HamberComponentTyped<
+	Props extends Record<string, any> = any,
+	Events extends Record<string, any> = any,
+	Slots extends Record<string, any> = any
+> extends HamberComponentDev {
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$prop_def: Props;
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$events_def: Events;
+	/**
+	 * @private
+	 * For type checking capabilities only.
+	 * Does not exist at runtime.
+	 * ### DO NOT USE!
+	 */
+	$$slot_def: Slots;
+
+	constructor(options: ComponentConstructorOptions<Props>) {
+		super(options);
+	}
+}
+
+/**
+ * Convenience type to get the type of a Hamber component. Useful for example in combination with
+ * dynamic components using `<hamber:component>`.
+ *
+ * Example:
+ * ```html
+ * <script lang="ts">
+ * 	import type { ComponentType, HamberComponentTyped } from 'hamber';
+ * 	import Component1 from './Component1.hamber';
+ * 	import Component2 from './Component2.hamber';
+ *
+ * 	const component: ComponentType = someLogic() ? Component1 : Component2;
+ * 	const componentOfCertainSubType: ComponentType<HamberComponentTyped<{ needsThisProp: string }>> = someLogic() ? Component1 : Component2;
+ * </script>
+ *
+ * <hamber:component this={component} />
+ * <hamber:component this={componentOfCertainSubType} needsThisProp="hello" />
+ * ```
+ */
+export type ComponentType<Component extends HamberComponentTyped = HamberComponentTyped> = new (
+	options: ComponentConstructorOptions<
+		Component extends HamberComponentTyped<infer Props> ? Props : Record<string, any>
+	>
+) => Component;
+
+/**
+ * Convenience type to get the props the given component expects. Example:
+ * ```html
+ * <script lang="ts">
+ * 	import type { ComponentProps } from 'hamber';
+ * 	import Component from './Component.hamber';
+ *
+ * 	const props: ComponentProps<Component> = { foo: 'bar' }; // Errors if these aren't the correct props
+ * </script>
+ * ```
+ */
+export type ComponentProps<Component extends HamberComponent> = Component extends HamberComponentTyped<infer Props>
+	? Props
+	: never;
+
 export function loop_guard(timeout) {
 	const start = Date.now();
 	return () => {
 		if (Date.now() - start > timeout) {
-			throw new Error(`Infinite loop detected`);
+			throw new Error('Infinite loop detected');
 		}
 	};
 }

@@ -1,11 +1,14 @@
 import { add_render_callback, flush, schedule_update, dirty_components } from './scheduler';
 import { current_component, set_current_component } from './lifecycle';
-import { blank_object, is_function, run, run_all, noop } from './utils';
-import { children, detach } from './dom';
+import { blank_object, is_empty, is_function, run, run_all, noop } from './utils';
+import { children, detach, start_hydrating, end_hydrating } from './dom';
 import { transition_in } from './transitions';
 
-interface Fragment {
-	key: string|null;
+/**
+ * INTERNAL, DO NOT USE. Code may change at any time.
+ */
+export interface Fragment {
+	key: string | null;
 	first: null;
 	/* create  */ c: () => void;
 	/* claim   */ l: (nodes: any) => void;
@@ -17,22 +20,25 @@ interface Fragment {
 	/* animate */ a: () => void;
 	/* intro   */ i: (local: any) => void;
 	/* outro   */ o: (local: any) => void;
-	/* destroy */ d: (detaching: 0|1) => void;
+	/* destroy */ d: (detaching: 0 | 1) => void;
 }
 interface T$$ {
 	dirty: number[];
-	ctx: null|any;
+	ctx: null | any;
 	bound: any;
 	update: () => void;
 	callbacks: any;
 	after_update: any[];
 	props: Record<string, 0 | string>;
-	fragment: null|false|Fragment;
+	fragment: null | false | Fragment;
 	not_equal: any;
 	before_update: any[];
 	context: Map<any, any>;
 	on_mount: any[];
 	on_destroy: any[];
+	skip_bound: boolean;
+	on_disconnect: any[];
+	root:Element | ShadowRoot
 }
 
 export function bind(component, name, callback) {
@@ -51,23 +57,26 @@ export function claim_component(block, parent_nodes) {
 	block && block.l(parent_nodes);
 }
 
-export function mount_component(component, target, anchor) {
+export function mount_component(component, target, anchor, customElement) {
 	const { fragment, on_mount, on_destroy, after_update } = component.$$;
 
 	fragment && fragment.m(target, anchor);
 
-	// onMount happens before the initial afterUpdate
-	add_render_callback(() => {
-		const new_on_destroy = on_mount.map(run).filter(is_function);
-		if (on_destroy) {
-			on_destroy.push(...new_on_destroy);
-		} else {
-			// Edge case - component was destroyed immediately,
-			// most likely as a result of a binding initialising
-			run_all(new_on_destroy);
-		}
-		component.$$.on_mount = [];
-	});
+	if (!customElement) {
+		// onMount happens before the initial afterUpdate
+		add_render_callback(() => {
+
+			const new_on_destroy = on_mount.map(run).filter(is_function);
+			if (on_destroy) {
+				on_destroy.push(...new_on_destroy);
+			} else {
+				// Edge case - component was destroyed immediately,
+				// most likely as a result of a binding initialising
+				run_all(new_on_destroy);
+			}
+			component.$$.on_mount = [];
+		});
+	}
 
 	after_update.forEach(add_render_callback);
 }
@@ -95,11 +104,9 @@ function make_dirty(component, i) {
 	component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
 
-export function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+export function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
 	const parent_component = current_component;
 	set_current_component(component);
-
-	const prop_values = options.props || {};
 
 	const $$: T$$ = component.$$ = {
 		fragment: null,
@@ -114,22 +121,27 @@ export function init(component, options, instance, create_fragment, not_equal, p
 		// lifecycle
 		on_mount: [],
 		on_destroy: [],
+		on_disconnect: [],
 		before_update: [],
 		after_update: [],
-		context: new Map(parent_component ? parent_component.$$.context : []),
+		context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
 
 		// everything else
 		callbacks: blank_object(),
-		dirty
+		dirty,
+		skip_bound: false,
+		root: options.target || parent_component.$$.root
 	};
+
+	append_styles && append_styles($$.root);
 
 	let ready = false;
 
 	$$.ctx = instance
-		? instance(component, prop_values, (i, ret, ...rest) => {
+		? instance(component, options.props || {}, (i, ret, ...rest) => {
 			const value = rest.length ? rest[0] : ret;
 			if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
-				if ($$.bound[i]) $$.bound[i](value);
+				if (!$$.skip_bound && $$.bound[i]) $$.bound[i](value);
 				if (ready) make_dirty(component, i);
 			}
 			return ret;
@@ -145,6 +157,7 @@ export function init(component, options, instance, create_fragment, not_equal, p
 
 	if (options.target) {
 		if (options.hydrate) {
+			start_hydrating();
 			const nodes = children(options.target);
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			$$.fragment && $$.fragment!.l(nodes);
@@ -155,7 +168,8 @@ export function init(component, options, instance, create_fragment, not_equal, p
 		}
 
 		if (options.intro) transition_in(component.$$.fragment);
-		mount_component(component, options.target, options.anchor);
+		mount_component(component, options.target, options.anchor, options.customElement);
+		end_hydrating();
 		flush();
 	}
 
@@ -166,12 +180,16 @@ export let HamberElement;
 if (typeof HTMLElement === 'function') {
 	HamberElement = class extends HTMLElement {
 		$$: T$$;
+		$$set?: ($$props: any) => void;
 		constructor() {
 			super();
 			this.attachShadow({ mode: 'open' });
 		}
 
 		connectedCallback() {
+			const { on_mount } = this.$$;
+			this.$$.on_disconnect = on_mount.map(run).filter(is_function);
+
 			// @ts-ignore todo: improve typings
 			for (const key in this.$$.slotted) {
 				// @ts-ignore todo: improve typings
@@ -181,6 +199,10 @@ if (typeof HTMLElement === 'function') {
 
 		attributeChangedCallback(attr, _oldValue, newValue) {
 			this[attr] = newValue;
+		}
+
+		disconnectedCallback() {
+			run_all(this.$$.on_disconnect);
 		}
 
 		$destroy() {
@@ -199,14 +221,22 @@ if (typeof HTMLElement === 'function') {
 			};
 		}
 
-		$set() {
-			// overridden by instance, if it has props
+		$set($$props) {
+			if (this.$$set && !is_empty($$props)) {
+				this.$$.skip_bound = true;
+				this.$$set($$props);
+				this.$$.skip_bound = false;
+			}
 		}
 	};
 }
 
+/**
+ * Base class for Hamber components. Used when dev=false.
+ */
 export class HamberComponent {
 	$$: T$$;
+	$$set?: ($$props: any) => void;
 
 	$destroy() {
 		destroy_component(this, 1);
@@ -223,7 +253,11 @@ export class HamberComponent {
 		};
 	}
 
-	$set() {
-		// overridden by instance, if it has props
+	$set($$props) {
+		if (this.$$set && !is_empty($$props)) {
+			this.$$.skip_bound = true;
+			this.$$set($$props);
+			this.$$.skip_bound = false;
+		}
 	}
 }

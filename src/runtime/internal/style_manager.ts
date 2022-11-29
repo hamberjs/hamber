@@ -1,12 +1,13 @@
-import { element } from './dom';
+import { append_empty_stylesheet, get_root_for_style } from './dom';
 import { raf } from './environment';
 
-interface ExtendedDoc extends Document {
-	__hamber_stylesheet: CSSStyleSheet;
-	__hamber_rules: Record<string, true>;
+interface StyleInformation {
+	stylesheet: CSSStyleSheet;
+	rules: Record<string, true>;
 }
 
-const active_docs = new Set<ExtendedDoc>();
+// we need to store the information for multiple documents because a Hamber application could also contain iframes
+const managed_styles = new Map<Document | ShadowRoot, StyleInformation>();
 let active = 0;
 
 // https://github.com/darkskyapp/string-hash/blob/master/index.js
@@ -16,6 +17,12 @@ function hash(str: string) {
 
 	while (i--) hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
 	return hash >>> 0;
+}
+
+function create_style_information(doc: Document | ShadowRoot, node: Element & ElementCSSInlineStyle) {
+	const info = { stylesheet: append_empty_stylesheet(node), rules: {} };
+	managed_styles.set(doc, info);
+	return info;
 }
 
 export function create_rule(node: Element & ElementCSSInlineStyle, a: number, b: number, duration: number, delay: number, ease: (t: number) => number, fn: (t: number, u: number) => string, uid: number = 0) {
@@ -29,18 +36,17 @@ export function create_rule(node: Element & ElementCSSInlineStyle, a: number, b:
 
 	const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
 	const name = `__hamber_${hash(rule)}_${uid}`;
-	const doc = node.ownerDocument as ExtendedDoc;
-	active_docs.add(doc);
-	const stylesheet = doc.__hamber_stylesheet || (doc.__hamber_stylesheet = doc.head.appendChild(element('style') as HTMLStyleElement).sheet as CSSStyleSheet);
-	const current_rules = doc.__hamber_rules || (doc.__hamber_rules = {});
+	const doc = get_root_for_style(node);
 
-	if (!current_rules[name]) {
-		current_rules[name] = true;
+	const { stylesheet, rules } = managed_styles.get(doc) || create_style_information(doc, node);
+
+	if (!rules[name]) {
+		rules[name] = true;
 		stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
 	}
 
 	const animation = node.style.animation || '';
-	node.style.animation = `${animation ? `${animation}, ` : ``}${name} ${duration}ms linear ${delay}ms 1 both`;
+	node.style.animation = `${animation ? `${animation}, ` : ''}${name} ${duration}ms linear ${delay}ms 1 both`;
 
 	active += 1;
 	return name;
@@ -63,12 +69,12 @@ export function delete_rule(node: Element & ElementCSSInlineStyle, name?: string
 export function clear_rules() {
 	raf(() => {
 		if (active) return;
-		active_docs.forEach(doc => {
-			const stylesheet = doc.__hamber_stylesheet;
+		managed_styles.forEach(info => {
+			const { stylesheet } = info;
 			let i = stylesheet.cssRules.length;
 			while (i--) stylesheet.deleteRule(i);
-			doc.__hamber_rules = {};
+			info.rules = {};
 		});
-		active_docs.clear();
+		managed_styles.clear();
 	});
 }

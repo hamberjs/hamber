@@ -7,7 +7,11 @@ export {
 	afterUpdate,
 	setContext,
 	getContext,
+	getAllContexts,
+	hasContext,
 	tick,
 	createEventDispatcher,
-	HamberComponentDev as HamberComponent
+	HamberComponentDev as HamberComponent,
+	HamberComponentTyped
+	// additional exports added through generate-type-definitions.js
 } from 'hamber/internal';

@@ -1,17 +1,19 @@
 import { b, x } from 'code-red';
 import Block from '../../Block';
 import Action from '../../../nodes/Action';
+import { Expression } from 'estree';
+import is_contextual from '../../../nodes/shared/is_contextual';
 
 export default function add_actions(
 	block: Block,
-	target: string,
+	target: string | Expression,
 	actions: Action[]
 ) {
 	actions.forEach(action => add_action(block, target, action));
 }
 
-export function add_action(block: Block, target: string, action: Action) {
-	const { expression } = action;
+export function add_action(block: Block, target: string | Expression, action: Action) {
+	const { expression, template_scope } = action;
 	let snippet;
 	let dependencies;
 
@@ -26,11 +28,22 @@ export function add_action(block: Block, target: string, action: Action) {
 
 	block.add_variable(id);
 
-	const fn = block.renderer.reference(action.name);
+	const [obj, ...properties] = action.name.split('.');
 
-	block.event_listeners.push(
-		x`@action_destroyer(${id} = ${fn}.call(null, ${target}, ${snippet}))`
-	);
+	const fn = is_contextual(action.component, template_scope, obj)
+		? block.renderer.reference(obj)
+		: obj;
+
+	if (properties.length) {
+		const member_expression = properties.reduce((lhs, rhs) => x`${lhs}.${rhs}`, fn);
+		block.event_listeners.push(
+			x`@action_destroyer(${id} = ${member_expression}(${target}, ${snippet}))`
+		);
+	} else {
+		block.event_listeners.push(
+			x`@action_destroyer(${id} = ${fn}.call(null, ${target}, ${snippet}))`
+		);
+	}
 
 	if (dependencies && dependencies.length > 0) {
 		let condition = x`${id} && @is_function(${id}.update)`;

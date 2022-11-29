@@ -1,6 +1,5 @@
 .idea
 .DS_Store
-.nyc_output
 .vscode
 node_modules
 *.map
@@ -8,6 +7,8 @@ node_modules
 /compiler.d.ts
 /compiler.*js
 /index.*js
+/ssr.*js
+/action
 /internal
 /store
 /easing
@@ -15,6 +16,7 @@ node_modules
 /transition
 /animate
 /scratch/
+/test/*/samples/_
 /yarn-error.log
 _actual*.*
 _output
