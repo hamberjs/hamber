@@ -27,7 +27,7 @@ jobs:
         id: upload-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-assets
+          name: build-assets-${{ matrix.os }}
           path: |
             index.*
             compiler.*
@@ -58,7 +58,7 @@ jobs:
         uses: actions/download-artifact@v3
         id: download-artifact
         with:
-          name: build-assets
+          name: build-assets-${{ matrix.os }}
       - name: Get Node version ${{ runner.os }}
         run: echo "NODE_VERSION=`node --version`" >> $GITHUB_ENV
         if: runner.os != 'Windows'
