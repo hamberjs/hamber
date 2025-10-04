@@ -57,7 +57,10 @@ virtualConsole.sendTo(console);
 
 const window = new jsdom.JSDOM('<main></main>', { virtualConsole }).window;
 global.document = window.document;
-global.navigator = window.navigator;
+Object.defineProperty(global, "navigator", {
+	value: window.navigator,
+	configurable: true,
+});
 global.getComputedStyle = window.getComputedStyle;
 global.requestAnimationFrame = null; // placeholder, filled in using set_raf
 global.window = window;
