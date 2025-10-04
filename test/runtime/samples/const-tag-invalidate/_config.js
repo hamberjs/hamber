@@ -4,6 +4,7 @@ export default {
 		<div>[N] B <button>Toggle</button></div>
 		<div>[N] C <button>Toggle</button></div>
 	`,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async test({ component, target, assert, window }) {
 		const [btn1, btn2, btn3] = target.querySelectorAll('button');
 		await btn1.dispatchEvent(new window.MouseEvent('click'));

@@ -1,5 +1,6 @@
 // https://github.com/hamberjs/hamber/issues/7633
 export default {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async test({ assert, target, component, window }) {
 		let inputs = target.querySelectorAll('input');
 
