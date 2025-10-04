@@ -1,0 +1,13 @@
+<script>
+	import { onMount } from 'hamber';
+
+	export let isVisible;
+
+	onMount(() => {
+		isVisible = true;
+	});
+</script>
+
+<div>
+	<slot></slot>
+</div>

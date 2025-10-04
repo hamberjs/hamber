@@ -1,0 +1,7 @@
+<script>
+	import Widget from './Widget.hamber';
+
+	export let obj;
+</script>
+
+<Widget {...obj} x={2} />

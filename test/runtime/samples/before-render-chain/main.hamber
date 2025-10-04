@@ -1,0 +1,7 @@
+<script>
+	export let list;
+
+	import List from './List.hamber';
+</script>
+
+<List bind:this={list}/>

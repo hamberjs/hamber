@@ -1,0 +1,7 @@
+<script>
+  let heading = 'h1';
+  let tag = 'div';
+</script>
+
+<hamber:element this={heading}>Foo</hamber:element>
+<hamber:element this={tag}>Bar</hamber:element>

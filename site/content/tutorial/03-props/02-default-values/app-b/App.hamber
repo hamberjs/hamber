@@ -1,0 +1,6 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested answer={42}/>
+<Nested/>

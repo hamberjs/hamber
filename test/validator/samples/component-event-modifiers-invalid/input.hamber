@@ -1,0 +1,6 @@
+<script>
+	import Button from './Button.hamber';
+	const doThat = () => {};
+</script>
+
+<Button on:click|preventDefault={doThat}></Button>

@@ -1,0 +1,14 @@
+<script>
+	import { setContext } from 'hamber';
+	import Child from './Child.hamber';
+
+	setContext('test', 123);
+
+	export let promise = Promise.resolve();
+</script>
+
+{#await promise}
+	<p>...waiting</p>
+{:then}
+	<Child />
+{/await}

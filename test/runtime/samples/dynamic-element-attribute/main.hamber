@@ -1,0 +1,5 @@
+<script>
+  export let tag = 'div';
+</script>
+
+<hamber:element this={tag} style="color: red;">Foo</hamber:element>

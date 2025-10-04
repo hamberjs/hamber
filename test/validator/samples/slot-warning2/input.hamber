@@ -1,0 +1,8 @@
+<script>
+	import Component from './Component.hamber';
+</script>
+
+<Component>
+	<!-- hamber-ignore unrelated-warning -->
+	<div slot='foo' on:click>hi!</div>
+</Component>

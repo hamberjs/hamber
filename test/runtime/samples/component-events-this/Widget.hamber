@@ -1,0 +1,6 @@
+<script>
+  import Inner from './Inner.hamber';
+</script>
+
+<button on:click>click me</button>
+<Inner on:bar />

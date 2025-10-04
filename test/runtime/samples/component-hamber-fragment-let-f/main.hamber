@@ -1,0 +1,17 @@
+<script>
+	import A from './A.hamber';
+	export let x = 1;
+	let y = 0;
+</script>
+
+<A {x}>
+	<hamber:fragment slot="foo" let:reflected>
+		<span
+			on:click={() => y = reflected}
+			class={reflected}
+		>
+			{reflected}
+		</span>
+	</hamber:fragment>
+</A>
+{ y }

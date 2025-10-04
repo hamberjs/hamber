@@ -1,0 +1,13 @@
+<script>
+	export let item;
+</script>
+
+<hamber:element this="div" class:active={true}>
+	{item.text}
+</hamber:element>
+
+<style>
+	.active {
+		color: red;
+	}
+</style>

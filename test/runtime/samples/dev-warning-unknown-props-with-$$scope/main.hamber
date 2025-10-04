@@ -1,0 +1,7 @@
+<script>
+	import Foo from './Foo.hamber';
+</script>
+
+<Foo answer={42}>
+	bar
+</Foo>

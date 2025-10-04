@@ -1,0 +1,10 @@
+<script>
+	import Box from './Box.hamber'
+</script>
+
+<Box>
+	<div slot="footer">
+		<p>All rights reserved.</p>
+		<p>Copyright (c) 2022 Hamber JS</p>
+	</div>
+</Box>

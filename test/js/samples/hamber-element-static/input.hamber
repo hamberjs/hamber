@@ -1,0 +1,3 @@
+<hamber:element this='a' class='outer'>
+	<hamber:element this='span' class='inner' />
+</hamber:element>

@@ -1,0 +1,7 @@
+<script>
+	export let custom;
+</script>
+
+<hamber:head>
+	<title>a {custom} title</title>
+</hamber:head>

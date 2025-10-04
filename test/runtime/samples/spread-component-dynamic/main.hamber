@@ -1,0 +1,7 @@
+<script>
+	import Foo from './Foo.hamber';
+
+	export let props;
+</script>
+
+<hamber:component this={Foo} {...props} />

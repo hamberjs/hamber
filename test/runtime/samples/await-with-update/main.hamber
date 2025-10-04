@@ -1,0 +1,16 @@
+<script>
+	import Component from './Component.hamber';
+	export let thePromise;
+	export let count;
+	export { Component }
+</script>
+
+<div>
+	{#await thePromise}
+		<p>loading...</p>
+	{:then theValue}
+		Resolved: <hamber:component this={theValue} {count} />
+	{:catch theError}
+		Rejected: <hamber:component this={theError} {count} />
+	{/await}
+</div>

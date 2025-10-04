@@ -1,0 +1,20 @@
+<script>
+	const document = 'I hereby declare Hamber the bestest framework.';
+	const console = 'nintendo sixty four';
+	const Error = 'Woops.';
+	const Object = 42;
+	const Map = false;
+
+	const everyone = [document, console, Error, Object, Map];
+</script>
+
+<hamber:head>
+	<title>Cute test</title>
+</hamber:head>
+
+<hamber:window on:click></hamber:window>
+<hamber:body on:mouseenter></hamber:body>
+
+{#each everyone as someone (someone)}
+	<p>{someone}</p>
+{/each}

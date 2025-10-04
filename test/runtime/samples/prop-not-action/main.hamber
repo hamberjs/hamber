@@ -1,0 +1,6 @@
+<script>
+	import Nested from './Nested.hamber';
+	export let currentUser;
+</script>
+
+<Nested user={currentUser}/>

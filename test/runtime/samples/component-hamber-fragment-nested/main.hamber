@@ -1,0 +1,12 @@
+<script>
+	import Child from './Child.hamber';
+</script>
+
+<Child>
+	<hamber:fragment>
+		Default
+	</hamber:fragment>
+	<hamber:fragment slot="b">
+		<p>B slot</p>
+	</hamber:fragment>
+</Child>

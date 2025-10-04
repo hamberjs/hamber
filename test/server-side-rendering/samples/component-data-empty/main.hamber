@@ -1,0 +1,7 @@
+<script>
+	import Widget from './Widget.hamber';
+</script>
+
+<div>
+	<Widget foo=''/>
+</div>

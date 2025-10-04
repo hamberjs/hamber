@@ -1,0 +1,8 @@
+<script>
+	import B from './B.hamber';
+
+	export let currentIdentifier;
+</script>
+
+<B bind:currentIdentifier />
+<B bind:currentIdentifier />

@@ -1,0 +1,9 @@
+<script>
+	export let foo;
+
+	import Widget from './Widget.hamber';
+</script>
+
+{#if foo}
+	<Widget/>
+{/if}

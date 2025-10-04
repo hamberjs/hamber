@@ -1,0 +1,5 @@
+<script>
+	export let disabled = false;
+</script>
+
+<hamber:element {disabled} this="button">Click me</hamber:element>

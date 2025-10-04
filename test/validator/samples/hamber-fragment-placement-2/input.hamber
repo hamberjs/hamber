@@ -1,0 +1,7 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<hamber:fragment>
+	<div>test</div>
+</hamber:fragment>

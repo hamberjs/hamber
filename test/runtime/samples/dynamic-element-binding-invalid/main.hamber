@@ -1,0 +1,6 @@
+<script>
+  const tag = "div";
+  let value;
+</script>
+
+<hamber:element this={tag} bind:value></hamber:element>

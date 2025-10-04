@@ -1,0 +1,10 @@
+<script>
+	import { setContext } from 'hamber';
+	import ChildComponent from './ChildComponent.hamber';
+
+	setContext('foo', true);
+
+	const content = ChildComponent.render({}, { context: new Map() }).html;
+</script>
+
+<div>{@html content}</div>

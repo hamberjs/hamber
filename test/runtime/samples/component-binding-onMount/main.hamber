@@ -1,0 +1,13 @@
+<script>
+	import Mount from './Mount.hamber';
+	import { onMount } from 'hamber';
+
+	onMount(() => {
+		const component = new Mount({
+			target: document.querySelector('#target'),
+			props: {},
+		});
+	});
+</script>
+
+<div id="target" />

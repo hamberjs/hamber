@@ -1,0 +1,15 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested>
+	<hamber:fragment slot="name">
+		<span>Hello</span>
+	</hamber:fragment>
+</Nested>
+
+<Nested>
+	<hamber:fragment slot="name">
+		<span>world</span>
+	</hamber:fragment>
+</Nested>

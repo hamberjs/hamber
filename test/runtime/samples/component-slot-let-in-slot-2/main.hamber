@@ -1,0 +1,11 @@
+<script>
+	import Outer from './Outer.hamber'
+	import Inner from './Inner.hamber'
+
+	export let prop
+	export let log;
+</script>
+
+<Outer {prop} let:value>
+	<Inner><button on:click={() => { log(value); }} /></Inner>
+</Outer>

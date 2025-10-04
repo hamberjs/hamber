@@ -1,0 +1,15 @@
+<script context="module">
+	let foo;
+</script>
+
+<script>
+	// hamber-ignore unused-export-let
+	export let unused;
+	// hamber-ignore module-script-reactive-declaration
+	$: reactive = foo;
+</script>
+
+<!-- hamber-ignore css-unused-selector -->
+<style>
+	.unused {}
+</style>

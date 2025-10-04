@@ -1,0 +1,10 @@
+<script>
+	import Nested from './Nested.hamber';
+	import Hello from './Hello.hamber';
+
+	let name = 'world';
+</script>
+
+<Nested>
+	<Hello slot="name" {name} />
+</Nested>

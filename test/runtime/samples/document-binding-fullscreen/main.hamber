@@ -1,0 +1,7 @@
+<script>
+	export let fullscreen;
+</script>
+
+<hamber:document bind:fullscreenElement={fullscreen}/>
+
+<div />

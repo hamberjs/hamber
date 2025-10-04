@@ -1,0 +1,1 @@
+span.hamber-xyz::after{content:'i am a pseudo-element'}span.hamber-xyz:first-child{color:red}span.hamber-xyz:last-child::after{color:blue}

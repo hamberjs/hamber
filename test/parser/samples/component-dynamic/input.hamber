@@ -1,0 +1,1 @@
+<hamber:component this="{foo ? Foo : Bar}"></hamber:component>

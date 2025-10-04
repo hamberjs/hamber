@@ -1,0 +1,11 @@
+<script>
+	import Nested from './Nested.hamber';
+
+	export let things;
+</script>
+
+<Nested {things}>
+	<hamber:fragment slot="item" let:thing="{{ num }}">
+		<span>{num}</span>
+	</hamber:fragment>
+</Nested>

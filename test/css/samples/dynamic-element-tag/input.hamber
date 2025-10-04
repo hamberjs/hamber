@@ -1,0 +1,32 @@
+<script>
+	export let element = 'div';
+</script>
+
+<hamber:element this={element} />
+
+<h2>
+	<hamber:element this={element}>
+		<b>text</b>
+	</hamber:element>
+</h2>
+
+<style>
+	div {
+		color: red;
+	}
+	h2 > p {
+		color: red;
+	}
+	h2 span {
+		color: red;
+	}
+	h2 > span > b {
+		color: red;
+	}
+	h2 span b {
+		color: red;
+	}
+	h2 b {
+		color: red;
+	}
+</style>

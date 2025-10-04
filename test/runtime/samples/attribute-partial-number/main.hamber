@@ -1,0 +1,5 @@
+<script>
+	import Component from './Component.hamber';
+</script>
+
+<Component value="10px"/>

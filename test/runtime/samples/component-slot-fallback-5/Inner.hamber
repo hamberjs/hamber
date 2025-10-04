@@ -1,0 +1,13 @@
+<script>
+	import IconA from './IconA.hamber';
+	import IconB from './IconB.hamber';
+
+	let variable = false;
+</script>
+
+<button on:click={() => variable = !variable}>Click Me</button>
+<div>
+	<slot>
+		<hamber:component this={variable ? IconA : IconB} />
+	</slot>
+</div>

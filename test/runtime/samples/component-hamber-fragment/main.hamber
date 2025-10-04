@@ -1,0 +1,13 @@
+<script>
+	import Nested from "./Nested.hamber";
+	import B from './B.hamber';
+	const a = 'a';
+</script>
+<Nested>
+	<hamber:fragment slot="a">
+		content <span>{ a }</span>
+	</hamber:fragment>
+	<hamber:fragment slot="b">
+		<B name="world" />
+	</hamber:fragment>
+</Nested>

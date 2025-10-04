@@ -1,0 +1,7 @@
+<script>
+	const p = 'p';
+</script>
+
+<div>
+	<hamber:element this={p} />
+</div>

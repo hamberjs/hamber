@@ -1,0 +1,12 @@
+<script>
+	import HeadNested from './HeadNested.hamber';
+	import Nested from './Nested.hamber';
+</script>
+
+<hamber:head>
+	{@html '<meta name="main_html" content="main_html">'}
+	<meta name="main" content="main">
+	<HeadNested />
+</hamber:head>
+
+<Nested/>

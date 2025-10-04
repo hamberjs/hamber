@@ -1,0 +1,9 @@
+<script>
+	import Forward from './Forward.hamber';
+</script>
+
+<Forward>
+	<span>
+		lol
+	</span>
+</Forward>

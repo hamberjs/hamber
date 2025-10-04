@@ -1,0 +1,5 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested/>

@@ -1,0 +1,14 @@
+<hamber:options tag="my-app"/>
+
+<script>
+	import { onMount } from 'hamber';
+
+  export let prop = false;
+  export let propsInitialized;
+  export let wasCreated;
+
+  onMount(() => {
+    propsInitialized = prop !== false;
+    wasCreated = true;
+  });
+</script>

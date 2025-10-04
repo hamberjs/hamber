@@ -1,0 +1,6 @@
+<script>
+  const tag = "div";
+  export let foo;
+</script>
+
+<hamber:element this={tag} bind:this={foo}></hamber:element>

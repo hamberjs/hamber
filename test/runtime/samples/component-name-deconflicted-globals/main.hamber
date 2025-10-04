@@ -1,0 +1,5 @@
+<script>
+	import Countdown from './Countdown.hamber';
+</script>
+
+<Countdown count={5}/>

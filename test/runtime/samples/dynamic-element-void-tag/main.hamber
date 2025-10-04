@@ -1,0 +1,12 @@
+<script>
+	export let propTag;
+	const static_tag = 'input';
+	const func_tag = () => 'br';
+</script>
+
+<h1></h1>
+<hamber:element this="{'col'}"></hamber:element>
+<hamber:element this="img"></hamber:element>
+<hamber:element this="{propTag}"></hamber:element>
+<hamber:element this="{static_tag}"></hamber:element>
+<hamber:element this="{func_tag()}"></hamber:element>

@@ -1,0 +1,10 @@
+<script>
+	import EEE from './EEE.hamber';
+	import RRR from './RRR.hamber';
+</script>
+
+{#if "Eva".startsWith('E')}
+	<EEE/>
+{:else}
+	<RRR/>
+{/if}

@@ -1,0 +1,3 @@
+<h1>Hello file.hamber!</h1>
+<style>.red { color: file.hamber; }</style>
+<script>console.log('file.hamber');</script>

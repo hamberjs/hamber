@@ -1,0 +1,7 @@
+<script>
+	import Foo from './Foo.hamber';
+
+	export let Bar = Foo;
+</script>
+
+<hamber:component this={Bar}/>

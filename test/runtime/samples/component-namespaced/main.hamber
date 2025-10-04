@@ -1,0 +1,7 @@
+<script>
+	import { Components } from './components.hamber';
+
+	export let a;
+</script>
+
+<Components.Foo foo={a}/>

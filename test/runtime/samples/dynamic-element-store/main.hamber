@@ -1,0 +1,6 @@
+<script>
+  import { writable } from 'hamber/store';
+  const foo = writable('div');
+</script>
+
+<hamber:element this={$foo}></hamber:element>

@@ -1,0 +1,9 @@
+<script>
+	import Green from './Green.hamber';
+	import Red from './Red.hamber';
+
+	export let x;
+	export let foo;
+</script>
+
+<hamber:component this="{x ? Green : Red}" bind:foo />

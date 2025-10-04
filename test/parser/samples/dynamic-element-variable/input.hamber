@@ -1,0 +1,2 @@
+<hamber:element this={tag}></hamber:element>
+<hamber:element this={tag} class="foo"></hamber:element>

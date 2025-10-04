@@ -1,0 +1,13 @@
+<script>
+	import Nested from './Nested.hamber';
+	import Leaf from './Leaf.hamber';
+</script>
+
+<Nested name='foo'>
+	<Nested name='bar'>
+		<Leaf/>
+	</Nested>
+	<Nested name='baz'>
+		<Leaf/>
+	</Nested>
+</Nested>

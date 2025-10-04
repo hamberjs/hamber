@@ -1,0 +1,9 @@
+<script>
+	import Outer from './Outer.hamber';
+
+	export let text = 'one';
+</script>
+
+<Outer>
+	{text}
+</Outer>

@@ -1,0 +1,21 @@
+<script>
+	import RedThing from './RedThing.hamber';
+	import GreenThing from './GreenThing.hamber';
+	import BlueThing from './BlueThing.hamber';
+
+	const options = [
+		{ color: 'red',   component: RedThing   },
+		{ color: 'green', component: GreenThing },
+		{ color: 'blue',  component: BlueThing  },
+	];
+
+	let selected = options[0];
+</script>
+
+<select bind:value={selected}>
+	{#each options as option}
+		<option value={option}>{option.color}</option>
+	{/each}
+</select>
+
+<hamber:component this={selected.component}/>

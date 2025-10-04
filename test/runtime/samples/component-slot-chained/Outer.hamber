@@ -1,0 +1,7 @@
+<script>
+	import Inner from './Inner.hamber';
+</script>
+
+<Inner>
+	<slot/>
+</Inner>

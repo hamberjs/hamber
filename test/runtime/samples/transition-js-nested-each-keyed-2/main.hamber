@@ -1,0 +1,10 @@
+<script>
+	export let x;
+	export let things;
+
+	import Widget from './Widget.hamber';
+</script>
+
+{#if x}
+	<Widget {things}/>
+{/if}

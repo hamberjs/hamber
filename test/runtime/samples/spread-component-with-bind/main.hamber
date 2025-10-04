@@ -1,0 +1,8 @@
+<script>
+	import Widget from './Widget.hamber';
+
+	export let props = {};
+	export let x = 'foo';
+</script>
+
+<hamber:component this={Widget} {...props} bind:value={x} />

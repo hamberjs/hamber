@@ -1,0 +1,11 @@
+<script>
+	export let condition, foo, bar;
+</script>
+
+<hamber:head>
+	{#if condition}
+		{@html foo}
+	{:else}
+		{@html bar}
+	{/if}
+</hamber:head>

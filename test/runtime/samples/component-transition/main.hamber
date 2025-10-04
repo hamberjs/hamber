@@ -1,0 +1,13 @@
+<script>
+	import { slide } from 'hamber/transition';
+	let tag = 'div';
+	function toggle() {
+		tag = (tag) ? null : 'div';
+	}
+</script>
+
+<button id="button" on:click={toggle}>toggle</button> TAG={tag}
+
+<div id="container">
+	<hamber:element this={tag} transition:slide={{duration:500}}>CONTENT</hamber:element>
+</div>

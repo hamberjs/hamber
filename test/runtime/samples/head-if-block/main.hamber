@@ -1,0 +1,9 @@
+<script>
+	export let condition;
+</script>
+
+<hamber:head>
+	{#if condition}
+		<title>woo!!!</title>
+	{/if}
+</hamber:head>

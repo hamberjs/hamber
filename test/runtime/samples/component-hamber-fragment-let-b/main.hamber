@@ -1,0 +1,9 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested let:count>
+	<hamber:fragment slot="main">
+		<span>{count}</span>
+	</hamber:fragment>
+</Nested>

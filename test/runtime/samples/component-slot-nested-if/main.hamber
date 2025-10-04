@@ -1,0 +1,10 @@
+<script>
+	import Input from "./Input.hamber";
+	import Display from "./Display.hamber";
+</script>
+
+<Input let:val={foo}>
+	{#if foo}
+		<Display>{foo}</Display>
+	{/if}
+</Input>

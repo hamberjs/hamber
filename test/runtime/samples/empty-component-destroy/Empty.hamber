@@ -1,0 +1,8 @@
+
+<script>
+  import { onDestroy } from 'hamber';
+
+	onDestroy(() => {
+		console.log('destroy');
+	});
+</script>

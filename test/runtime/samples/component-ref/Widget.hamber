@@ -1,0 +1,11 @@
+<script>
+	import { onMount } from 'hamber';
+
+	export let isWidget;
+
+	onMount(() => {
+		isWidget = true;
+	});
+</script>
+
+<p>i am a widget</p>

@@ -1,0 +1,8 @@
+<script>
+	import Frame from './Frame.hamber';
+	import Foo from './Foo.hamber';
+
+	export let visible;
+</script>
+
+<Frame component={Foo} {visible}/>

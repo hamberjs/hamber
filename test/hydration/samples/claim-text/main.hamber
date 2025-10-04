@@ -1,0 +1,8 @@
+<script>
+	import Layout from './Layout.hamber';
+	import Component from './Component.hamber';
+</script>
+
+<Layout>
+	<Component />
+</Layout>

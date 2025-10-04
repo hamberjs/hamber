@@ -1,0 +1,14 @@
+<script>
+	import { createEventDispatcher } from 'hamber';
+	import Widget from './Widget.hamber';
+
+	const dispatch = createEventDispatcher();
+
+	export let visible;
+</script>
+
+<div>
+	{#if visible}
+		<Widget on:destroy='{() => dispatch("widgetTornDown")}'/>
+	{/if}
+</div>

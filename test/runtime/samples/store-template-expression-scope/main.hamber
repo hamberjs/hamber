@@ -1,0 +1,9 @@
+<script>
+	import { writable } from 'hamber/store';
+	const store = writable();
+</script>
+
+<button
+	on:click={(store) => {
+		$store = Math.random();
+	}} />

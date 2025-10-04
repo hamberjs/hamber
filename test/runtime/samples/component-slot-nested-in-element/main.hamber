@@ -1,0 +1,7 @@
+<script>
+	import One from './One.hamber';
+</script>
+
+<One>
+	<div slot="a">a</div>
+</One>

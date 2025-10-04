@@ -1,0 +1,7 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested let:foo={bar}>
+	<p>{bar}</p>
+</Nested>

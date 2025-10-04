@@ -1,0 +1,10 @@
+<script>
+	import Foo from './Foo.hamber';
+	export let tag = "h1";
+</script>
+
+<Foo>
+	<hamber:element this={tag}>This is default slot</hamber:element>
+	<hamber:element this={tag} slot='other'>This is other slot</hamber:element>
+</Foo>
+

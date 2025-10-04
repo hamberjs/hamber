@@ -1,0 +1,10 @@
+{
+	"code": "invalid-tag-name",
+	"message": "Valid <hamber:...> tag names are hamber:head, hamber:options, hamber:window, hamber:document, hamber:body, hamber:self, hamber:component, hamber:fragment or hamber:element",
+	"pos": 10,
+	"start": {
+		"character": 10,
+		"line": 2,
+		"column": 2
+	}
+}

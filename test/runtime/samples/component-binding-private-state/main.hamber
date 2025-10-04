@@ -1,0 +1,11 @@
+<script>
+	import Foo from './Foo.hamber';
+	import Bar from './Bar.hamber';
+
+	export let a = true;
+	export let x;
+</script>
+
+<hamber:component this="{a ? Foo : Bar}" bind:x/>
+
+<p>x in parent: {x}</p>

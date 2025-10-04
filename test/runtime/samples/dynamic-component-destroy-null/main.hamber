@@ -1,0 +1,7 @@
+<script>
+	export let x;
+</script>
+
+{#if x}
+	<hamber:component this={null}/>
+{/if}

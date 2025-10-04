@@ -1,0 +1,9 @@
+<script>
+	import CustomButton from './CustomButton.hamber';
+
+	function handleClick() {
+		alert('clicked');
+	}
+</script>
+
+<CustomButton on:click={handleClick}/>

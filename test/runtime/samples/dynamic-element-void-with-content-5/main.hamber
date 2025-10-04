@@ -1,0 +1,10 @@
+<script>
+	const tags = [{ t: 'div', content: 'hello world' }, { t: 'input' }];
+</script>
+
+{#each tags as tag}
+	{tag.t} <br />
+	<hamber:element this={tag.t}>
+		{#if tag.t !== 'input'}{tag.content}{/if}
+	</hamber:element>
+{/each}

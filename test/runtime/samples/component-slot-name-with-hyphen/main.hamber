@@ -1,0 +1,7 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested>
+	<p slot="foo-bar">Hello</p>
+</Nested>

@@ -1,0 +1,1 @@
+<hamber:window bind:innerWidth={foo.bar.baz}/>

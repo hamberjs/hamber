@@ -1,0 +1,7 @@
+<script>
+	import Box from './Box.hamber';
+</script>
+
+<Box>
+	<!-- put content here -->
+</Box>

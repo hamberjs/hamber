@@ -1,0 +1,7 @@
+<script>
+	import Inner from "./Inner.hamber";
+	export let defaultValue = '';
+	export let slotProps = '';
+</script>
+
+<slot {slotProps}><Inner value={defaultValue} /></slot>

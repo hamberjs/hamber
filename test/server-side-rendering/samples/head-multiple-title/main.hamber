@@ -1,0 +1,10 @@
+<script>
+	import A from './A.hamber';
+	import B from './B.hamber';
+</script>
+
+<hamber:head>
+	<title>Main</title>
+</hamber:head>
+<A />
+<B />

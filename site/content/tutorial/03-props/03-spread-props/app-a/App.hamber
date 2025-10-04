@@ -1,0 +1,12 @@
+<script>
+	import Info from './Info.hamber';
+
+	const pkg = {
+		name: 'hamber',
+		version: 3,
+		speed: 'blazing',
+		website: 'https://hamberjs.web.app'
+	};
+</script>
+
+<Info name={pkg.name} version={pkg.version} speed={pkg.speed} website={pkg.website}/>

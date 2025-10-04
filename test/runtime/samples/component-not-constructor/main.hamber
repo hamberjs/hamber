@@ -1,0 +1,9 @@
+<script>
+	import Sub from './Sub.hamber';
+	export let selected;
+	let banana = {};
+	let component = banana;
+	$: selected ? component = Sub : component = banana;
+</script>
+
+<hamber:component this={component} />

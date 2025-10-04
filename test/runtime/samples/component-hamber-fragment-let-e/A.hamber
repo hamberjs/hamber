@@ -1,0 +1,11 @@
+<script>
+	import B from './B.hamber';
+	export let x;
+</script>
+
+<B {x} let:reflected>
+	<hamber:fragment slot="main">
+		<span>{reflected}</span>
+		<slot name="main" {reflected} />
+	</hamber:fragment>
+</B>

@@ -1,0 +1,8 @@
+<script>
+	import Inner from "./Inner.hamber";
+	let value = '';
+</script>
+
+<input bind:value />
+
+<Inner {value} />

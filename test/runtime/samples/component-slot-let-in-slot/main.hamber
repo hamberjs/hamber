@@ -1,0 +1,10 @@
+<script>
+	import Outer from './Outer.hamber'
+	import Inner from './Inner.hamber'
+
+	export let prop
+</script>
+
+<Outer {prop} let:value>
+	<Inner>{value}</Inner>
+</Outer>

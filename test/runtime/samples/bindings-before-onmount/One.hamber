@@ -1,0 +1,13 @@
+<script>
+	import { onMount } from 'hamber';
+	import Two from './Two.hamber';
+
+	export let snapshot;
+	export let foo;
+
+	onMount(() => {
+		snapshot = foo();
+	});
+</script>
+
+<Two bind:foo/>

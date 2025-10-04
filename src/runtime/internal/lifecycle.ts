@@ -11,18 +11,47 @@ export function get_current_component() {
 	return current_component;
 }
 
+/**
+ * Schedules a callback to run immediately before the component is updated after any state change.
+ *
+ * The first time the callback runs will be before the initial `onMount`
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-beforeupdate
+ */
 export function beforeUpdate(fn: () => any) {
 	get_current_component().$$.before_update.push(fn);
 }
 
+/**
+ * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
+ * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
+ * it can be called from an external module).
+ *
+ * `onMount` does not run inside a [server-side component](/docs#run-time-server-side-component-api).
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-onmount
+ */
 export function onMount(fn: () => any) {
 	get_current_component().$$.on_mount.push(fn);
 }
 
+/**
+ * Schedules a callback to run immediately after the component has been updated.
+ *
+ * The first time the callback runs will be after the initial `onMount`
+ */
 export function afterUpdate(fn: () => any) {
 	get_current_component().$$.after_update.push(fn);
 }
 
+/**
+ * Schedules a callback to run immediately before the component is unmounted.
+ *
+ * Out of `onMount`, `beforeUpdate`, `afterUpdate` and `onDestroy`, this is the
+ * only one that runs inside a server-side component.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-ondestroy
+ */
 export function onDestroy(fn: () => any) {
 	get_current_component().$$.on_destroy.push(fn);
 }
@@ -31,6 +60,18 @@ export interface DispatchOptions {
 	cancelable?: boolean;
 }
 
+/**
+ * Creates an event dispatcher that can be used to dispatch [component events](/docs#template-syntax-component-directives-on-eventname).
+ * Event dispatchers are functions that can take two arguments: `name` and `detail`.
+ *
+ * Component events created with `createEventDispatcher` create a
+ * [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent).
+ * These events do not [bubble](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture).
+ * The `detail` argument corresponds to the [CustomEvent.detail](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail)
+ * property and can contain any type of data.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-createeventdispatcher
+ */
 export function createEventDispatcher<EventMap extends {} = any>(): <
 	EventKey extends Extract<keyof EventMap, string>
 >(
@@ -57,21 +98,49 @@ export function createEventDispatcher<EventMap extends {} = any>(): <
 	};
 }
 
+/**
+ * Associates an arbitrary `context` object with the current component and the specified `key`
+ * and returns that object. The context is then available to children of the component
+ * (including slotted content) with `getContext`.
+ *
+ * Like lifecycle functions, this must be called during component initialisation.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-setcontext
+ */
 export function setContext<T>(key, context: T): T {
 	get_current_component().$$.context.set(key, context);
 	return context;
 }
 
+/**
+ * Retrieves the context that belongs to the closest parent component with the specified `key`.
+ * Must be called during component initialisation.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-getcontext
+ */
 export function getContext<T>(key): T {
 	return get_current_component().$$.context.get(key);
 }
 
+/**
+ * Retrieves the whole context map that belongs to the closest parent component.
+ * Must be called during component initialisation. Useful, for example, if you
+ * programmatically create a component and want to pass the existing context to it.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-getallcontexts
+ */
 export function getAllContexts<T extends Map<any, any> = Map<any, any>>(): T {
 	return get_current_component().$$.context;
 }
 
+/**
+ * Checks whether a given `key` has been set in the context of a parent component.
+ * Must be called during component initialisation.
+ *
+ * https://hamberjs.web.app/docs#run-time-hamber-hascontext
+ */
 export function hasContext(key): boolean {
-	return get_current_component().$$.context.has(key);	
+	return get_current_component().$$.context.has(key);
 }
 
 // TODO figure out if we still want to support

@@ -1,0 +1,6 @@
+<script>
+	import Nested from './Nested.hamber';
+	export let tag;
+</script>
+
+<hamber:element this='{tag}'><Nested/></hamber:element>

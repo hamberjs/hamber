@@ -1,0 +1,9 @@
+<script>
+	import Inner from './Inner.hamber';
+
+	function handleMessage(event) {
+		alert(event.detail.text);
+	}
+</script>
+
+<Inner on:message={handleMessage}/>

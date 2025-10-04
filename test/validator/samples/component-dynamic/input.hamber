@@ -1,0 +1,30 @@
+<script>
+	import A from './A.hamber';
+	import B from './B.hamber';
+
+	let Let = A;
+	function update() {
+		Let = B;
+	}
+
+	export let ExportLet = B;
+
+	$: Reactive = random() ? A : B;
+</script>
+
+<Let />
+<ExportLet />
+<Reactive />
+<hamber:component this={Let} />
+
+<!-- Here, we test to see if hamber-ignore works with reactive-component -->
+<!-- hamber-ignore reactive-component -->
+<Let />
+<div>
+  <!-- hamber-ignore reactive-component -->
+  <ExportLet />
+  <div>
+    <!-- hamber-ignore reactive-component -->
+    <Reactive />
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<script>
+  import Nested from "./Nested.hamber";
+  import Leaf from "./Leaf.hamber";
+</script>
+
+<Nested value="bar">
+  <Leaf />
+</Nested>
+
+<Nested>
+  <Leaf />
+</Nested>

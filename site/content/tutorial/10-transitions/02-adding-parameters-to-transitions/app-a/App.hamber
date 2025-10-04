@@ -1,0 +1,15 @@
+<script>
+	import { fade } from 'hamber/transition';
+	let visible = true;
+</script>
+
+<label>
+	<input type="checkbox" bind:checked={visible}>
+	visible
+</label>
+
+{#if visible}
+	<p transition:fade>
+		Fades in and out
+	</p>
+{/if}

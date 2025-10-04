@@ -1,0 +1,8 @@
+<script>
+	import A from './A.hamber';
+	import B from './B.hamber';
+
+	export let x;
+</script>
+
+<hamber:component this="{x ? A : B}"/>

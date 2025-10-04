@@ -1,0 +1,8 @@
+<script>
+	const a = 'a';
+	const span = 'span';
+</script>
+
+<hamber:element this={a} class='outer' on:keydown on:keyup>
+	<hamber:element this={span} class='inner' on:keydown on:keyup />
+</hamber:element>

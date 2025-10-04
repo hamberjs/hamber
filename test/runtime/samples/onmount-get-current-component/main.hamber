@@ -1,0 +1,16 @@
+<script>
+	import { onMount } from 'hamber';
+	import { get_current_component } from 'hamber/internal';
+
+	let gotException = 0;
+
+	onMount(() => {
+		try {
+			get_current_component();
+		} catch (error) {
+			gotException++;
+		}
+	});
+</script>
+
+{gotException}

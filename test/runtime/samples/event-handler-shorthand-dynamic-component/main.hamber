@@ -1,0 +1,5 @@
+<script>
+	import Widget from './Widget.hamber';
+</script>
+
+<hamber:component this={Widget} on:foo/>

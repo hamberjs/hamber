@@ -1,0 +1,5 @@
+<script>
+	let online;
+</script>
+
+<hamber:window bind:online/>

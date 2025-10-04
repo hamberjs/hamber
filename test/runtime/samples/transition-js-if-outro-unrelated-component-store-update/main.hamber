@@ -1,0 +1,10 @@
+<script>
+	import { writable } from "hamber/store";
+	import Component from "./Component.hamber";
+	export let condition = writable(true);
+</script>
+
+{#if $condition}
+	<button on:click={() => ($condition = false)} id="1" />
+	<Component {condition} />
+{/if}

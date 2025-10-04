@@ -1,0 +1,11 @@
+<script>
+	import Foo from './Foo.hamber';
+	import Bar from './Bar.hamber';
+
+	export { Bar };
+	export let x = Foo;
+</script>
+
+{#if x}
+	<hamber:component this={x}/>
+{/if}

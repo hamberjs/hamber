@@ -1,0 +1,16 @@
+<script>
+	import Outer from './Outer.hamber'
+	import Inner from './Inner.hamber'
+
+	export let prop
+</script>
+
+<Outer {prop}>
+	<hamber:fragment slot="main" let:value>
+		<Inner>
+			<hamber:fragment slot="main">
+				{value}
+			</hamber:fragment>
+		</Inner>
+	</hamber:fragment>
+</Outer>

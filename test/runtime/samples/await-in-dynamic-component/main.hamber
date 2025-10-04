@@ -1,0 +1,6 @@
+<script>
+	export let flag = true;
+	import Widget from './Widget.hamber';
+</script>
+
+<hamber:component this={flag && Widget}/>

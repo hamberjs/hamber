@@ -1,0 +1,8 @@
+<script>
+	import { getContext } from 'hamber';
+	import { ID } from './Nested.hamber';
+
+	const name = getContext('test');
+</script>
+
+<div>{name}</div>

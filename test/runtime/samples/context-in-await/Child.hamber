@@ -1,0 +1,6 @@
+<script>
+	import { getContext } from 'hamber';
+	const num = getContext('test');
+</script>
+
+<p>Context value: {num}</p>

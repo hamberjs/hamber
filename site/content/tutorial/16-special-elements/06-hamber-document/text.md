@@ -1,0 +1,13 @@
+---
+title: <hamber:document>
+---
+
+Similar to `<hamber:window>`, the `<hamber:document>` element allows you to listen for events that fire on `document`. This is useful with events like `selectionchange`, which doesn't fire on `window`.
+
+Add the `selectionchange` handler to the `<hamber:document>` tag:
+
+```html
+<hamber:document on:selectionchange={handleSelectionChange} />
+```
+
+> Avoid `mouseenter` and `mouseleave` handlers on this element, these events are not fired on `document` in all browsers. Use `<hamber:body>` for this instead.

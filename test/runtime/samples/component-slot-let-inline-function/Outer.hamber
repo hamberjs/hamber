@@ -1,0 +1,12 @@
+<script>
+  import Inner from './Inner.hamber'
+  export let log;
+  export let a;
+	export let b;
+</script>
+
+<Inner {log} {b}>
+  <hamber:fragment let:innerCall slot="inner_slot">
+    <slot outerCall={() => innerCall(a)} />
+  </hamber:fragment>
+</Inner>

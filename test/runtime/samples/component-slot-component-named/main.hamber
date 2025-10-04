@@ -1,0 +1,12 @@
+<script>
+	import Nested from './Nested.hamber';
+	import Foo from './Foo.hamber';
+	import Bar from './Bar.hamber';
+</script>
+
+<Nested>
+	Hello
+
+	<Foo slot='foo' />
+	<Bar slot='bar' />
+</Nested>

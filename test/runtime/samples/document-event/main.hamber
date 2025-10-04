@@ -1,0 +1,9 @@
+<script>
+	export let events = [];
+
+	function log(event) {
+		events.push(event);
+	}
+</script>
+
+<hamber:body on:mouseenter='{() => log("enter")}' on:mouseleave='{() => log("leave")}'/>

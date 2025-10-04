@@ -1,0 +1,7 @@
+<script>
+	import Widget from './Widget.hamber';
+
+	function foo(){}
+</script>
+
+<Widget use:foo/>

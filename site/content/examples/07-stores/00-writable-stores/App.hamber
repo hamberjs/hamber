@@ -1,0 +1,18 @@
+<script>
+	import { count } from './stores.js';
+	import Incrementer from './Incrementer.hamber';
+	import Decrementer from './Decrementer.hamber';
+	import Resetter from './Resetter.hamber';
+
+	let countValue;
+
+	const unsubscribe = count.subscribe(value => {
+		countValue = value;
+	});
+</script>
+
+<h1>The count is {countValue}</h1>
+
+<Incrementer/>
+<Decrementer/>
+<Resetter/>

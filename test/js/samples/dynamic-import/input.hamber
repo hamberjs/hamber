@@ -1,0 +1,5 @@
+<script>
+	import LazyLoad from './LazyLoad.hamber';
+</script>
+
+<LazyLoad load="{() => import('./Foo.hamber')}"/>

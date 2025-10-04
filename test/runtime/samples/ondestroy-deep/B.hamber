@@ -1,0 +1,15 @@
+<script>
+	import { onDestroy } from 'hamber';
+	import { destroyed } from './destroyed.js';
+	import C from './C.hamber';
+
+	let yes = 1;
+
+	onDestroy(() => destroyed.push('B'));
+</script>
+
+<div>
+	{#if yes}
+		<C/>
+	{/if}
+</div>

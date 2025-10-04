@@ -1,0 +1,6 @@
+<script>
+	import Nested from "./Nested.hamber";
+</script>
+<Nested>
+	<input slot="slot1">
+</Nested>

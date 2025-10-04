@@ -1,0 +1,7 @@
+<script>
+	export let adjective;
+</script>
+
+<hamber:head>
+	<title>a {adjective} title</title>
+</hamber:head>

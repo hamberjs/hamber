@@ -1,0 +1,6 @@
+<script>
+	import Nested from './Nested.hamber';
+</script>
+
+<Nested name='foo'/>
+<Nested name='bar'/>

@@ -1,0 +1,5 @@
+<script>
+  export let size;
+</script>
+
+<hamber:element this="{`h${size}`}">This is h{size} tag</hamber:element>

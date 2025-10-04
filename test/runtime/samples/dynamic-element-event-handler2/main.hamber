@@ -1,0 +1,6 @@
+<script>
+  export let tag;
+  export let handler;
+</script>
+
+<hamber:element this={tag} on:click={handler}>Foo</hamber:element>

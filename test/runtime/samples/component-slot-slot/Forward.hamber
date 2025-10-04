@@ -1,0 +1,7 @@
+<script>
+	import Component from './Component.hamber';
+</script>
+
+<Component>
+	<slot slot="test" />
+</Component>

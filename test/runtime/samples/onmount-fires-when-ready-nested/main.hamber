@@ -1,0 +1,9 @@
+<script>
+	import Widget from './Widget.hamber';
+	import ParentWidget from './ParentWidget.hamber';
+</script>
+
+<div>
+	<Widget/>
+	<ParentWidget />
+</div>
