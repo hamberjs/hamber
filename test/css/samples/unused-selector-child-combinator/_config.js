@@ -9,9 +9,9 @@ export default {
 			     ^
 			3:     font-size: 36px;
 			4:   }`,
-			pos: 10,
-			start: { character: 10, column: 1, line: 2 },
-			end: { character: 21, column: 12, line: 2 }
+			pos: 9,
+			start: { character: 9, column: 1, line: 2 },
+			end: { character: 20, column: 12, line: 2 }
 		},
 		{
 			code: 'css-unused-selector',
@@ -23,9 +23,9 @@ export default {
 			     ^
 			7:     font-size: 36px;
 			8:   }`,
-			pos: 49,
-			start: { character: 49, column: 1, line: 6 },
-			end: { character: 58, column: 10, line: 6 }
+			pos: 48,
+			start: { character: 48, column: 1, line: 6 },
+			end: { character: 57, column: 10, line: 6 }
 		},
 		{
 			code: 'css-unused-selector',
@@ -37,9 +37,9 @@ export default {
 			      ^
 			11:     font-size: 48px;
 			12:   }`,
-			pos: 86,
-			start: { character: 86, column: 1, line: 10 },
-			end: { character: 98, column: 13, line: 10 }
+			pos: 84,
+			start: { character: 84, column: 1, line: 10 },
+			end: { character: 96, column: 13, line: 10 }
 		}
 	]
 };

@@ -1,6 +1,6 @@
 export default {
 	// not sure if we can really test this in JSDOM. Refer to
-	// https://hamber.dev/repl?example=media-elements
+	// https://hamberjs.web.app/repl?example=media-elements
 	// instead
 	skip: true,
 

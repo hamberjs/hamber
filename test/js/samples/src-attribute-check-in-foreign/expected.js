@@ -18,8 +18,8 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
-			svg = document.createElementNS("https://hamber.dev/docs#template-syntax-hamber-options", "svg");
-			img = document.createElementNS("https://hamber.dev/docs#template-syntax-hamber-options", "img");
+			svg = document.createElementNS("https://hamberjs.web.app/docs#template-syntax-hamber-options", "svg");
+			img = document.createElementNS("https://hamberjs.web.app/docs#template-syntax-hamber-options", "img");
 			this.h();
 		},
 		l(nodes) {
